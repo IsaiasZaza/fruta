@@ -10,6 +10,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useCarrinho } from '../CarrinhoContext'
 
 interface Produto {
   id: string;
@@ -21,31 +23,41 @@ interface Produto {
 export default function CatalogoScreen(): JSX.Element {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [busca, setBusca] = useState('');
+  const navigation = useNavigation<any>();
+  const { adicionarProduto } = useCarrinho();
+
 
   useEffect(() => {
-    fetch('https://110e-2804-8aa4-3e6c-2400-1939-8514-4b9-f959.ngrok-free.app/api/products')
+    fetch('https://6e4d-2804-8aa4-3e6c-2400-78a2-710c-92c9-70f1.ngrok-free.app/api/products')
       .then(response => response.json())
       .then(data => setProdutos(data))
       .catch(error => console.error('Erro ao buscar produtos:', error));
   }, []);
 
   const renderItem = ({ item }: { item: Produto }) => (
-    <View style={styles.produtoCard}>
-      <Image source={{ uri: item.image }} style={styles.produtoImagem} />
-      <Text style={styles.produtoNome}>{item.nome}</Text>
-      <Text style={styles.produtoPreco}>R$ {item.price.toFixed(2)}</Text>
-    </View>
-  );
+  <TouchableOpacity
+    style={styles.produtoCard}
+    onPress={() => {
+      adicionarProduto(item);
+      navigation.navigate('Carrinho');
+    }}
+  >
+    <Image source={{ uri: item.image }} style={styles.produtoImagem} />
+    <Text style={styles.produtoNome}>{item.nome}</Text>
+    <Text style={styles.produtoPreco}>R$ {item.price.toFixed(2)}</Text>
+  </TouchableOpacity>
+);
+
 
   return (
     <ScrollView style={styles.container}>
       {/* Faixa promocional */}
-      <View style={styles.promocaoTopo}>
-        <Text style={styles.promocaoTopoTexto}>
-          12% NA SUA 1ª COMPRA SEM VALOR MÍNIMO
+      <TouchableOpacity style={styles.promocaoTopo} onPress={() => navigation.navigate('Cupom')}>
+        <Text style={styles.promocaoTopoTexto}>12% NA SUA 1ª COMPRA SEM VALOR MÍNIMO</Text>
+        <Text style={styles.cupom}>
+          CUPOM: <Text style={{ fontWeight: 'bold' }}>FRUTISALE12</Text>
         </Text>
-        <Text style={styles.cupom}>CUPOM: <Text style={{ fontWeight: 'bold' }}>FRUTISALE12</Text></Text>
-      </View>
+      </TouchableOpacity>
 
       {/* Localização */}
       <View style={styles.localizacao}>
@@ -55,17 +67,16 @@ export default function CatalogoScreen(): JSX.Element {
 
       {/* Logo e ícones */}
       <View style={styles.topo}>
-        <Image
-          source={require('../assets/logo.png')}
-          style={styles.logo}
-        />
+        <Image source={require('../assets/logo.png')} style={styles.logo} />
         <View style={styles.iconesTopo}>
           <Ionicons name="notifications-outline" size={22} color="#000" />
-          <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
+<TouchableOpacity onPress={() => navigation.navigate('Carrinho')}>
+  <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
+</TouchableOpacity>
         </View>
       </View>
 
-      {/* Busca */}
+      {/* Campo de busca */}
       <View style={styles.campoBusca}>
         <Ionicons name="search" size={20} color="#888" style={{ marginRight: 5 }} />
         <TextInput
@@ -77,11 +88,13 @@ export default function CatalogoScreen(): JSX.Element {
         />
       </View>
 
-      {/* Promoção banana */}
+      {/* Promoção destacada */}
       <View style={styles.promocaoContainer}>
         <Text style={styles.promocaoTitulo}>BANANA NANICA KG</Text>
         <Image
-          source={{ uri: 'https://feiraorganica.com.br/wp-content/uploads/2021/04/banana-nanica.png' }}
+          source={{
+            uri: 'https://feiraorganica.com.br/wp-content/uploads/2021/04/banana-nanica.png',
+          }}
           style={styles.promocaoImagem}
         />
         <Text style={styles.promocaoPreco}>R$ 2,98</Text>
@@ -114,6 +127,7 @@ export default function CatalogoScreen(): JSX.Element {
         <Text style={styles.secaoTitulo}>Faça sua feira</Text>
         <Text style={styles.verTodos}>VER TODOS</Text>
       </View>
+
       <FlatList
         data={produtos.filter(produto =>
           produto.nome.toLowerCase().includes(busca.toLowerCase())
@@ -132,6 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    marginTop: 50,
   },
   promocaoTopo: {
     backgroundColor: '#ff8c00',

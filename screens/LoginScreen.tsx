@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,63 +7,84 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
+
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
-
 export default function LoginScreen(): JSX.Element {
+  const navigation = useNavigation<NavigationProp>();
 
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-    const handleLogin = () => {
-    // Aqui você pode colocar a lógica de validação de login
-    // Se for bem-sucedido:
-    navigation.navigate('Catalogo');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://6e4d-2804-8aa4-3e6c-2400-78a2-710c-92c9-70f1.ngrok-free.app/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login bem-sucedido
+        // Você pode salvar o token ou dados do usuário com AsyncStorage, se necessário
+        navigation.navigate('Catalogo');
+      } else {
+        Alert.alert('Erro de login', data?.message || 'Credenciais inválidas');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    }
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Logo e título */}
       <View style={styles.logoContainer}>
         <Image
-          source={require('../assets/logo.png')} // Substitua com o caminho correto da imagem
+          source={require('../assets/logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
         <Text style={styles.title}>ECO FRUTI</Text>
       </View>
 
-      {/* Título da tela */}
       <Text style={styles.loginTitle}>ENTRAR COM E-MAIL E SENHA</Text>
 
-      {/* Inputs */}
       <TextInput
         placeholder="ex.: exemplo@mail.com"
         placeholderTextColor="#999"
         style={styles.input}
         keyboardType="email-address"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
       />
       <TextInput
         placeholder="Adicione sua senha"
         placeholderTextColor="#999"
         secureTextEntry
         style={styles.input}
+        value={senha}
+        onChangeText={setSenha}
       />
 
-      {/* Redefinir senha */}
       <TouchableOpacity style={styles.forgotButton}>
         <Text style={styles.forgotText}>REDEFINIR SENHA</Text>
       </TouchableOpacity>
 
-      {/* Botão de Entrar */}
-      <TouchableOpacity style={styles.loginButton}>
-        <Text onPress={handleLogin} style={styles.loginButtonText}>ENTRAR</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>ENTRAR</Text>
       </TouchableOpacity>
 
-      {/* Botão de cadastro */}
       <TouchableOpacity
         style={styles.registerButton}
         onPress={() => navigation.navigate('PersonalData')}
@@ -71,7 +92,6 @@ export default function LoginScreen(): JSX.Element {
         <Text style={styles.registerText}>NÃO TEM UMA CONTA? CADASTRE-SE</Text>
       </TouchableOpacity>
 
-      {/* Rodapé */}
       <Text style={styles.footerText}>
         Feito com muito <Text style={styles.heart}>❤️</Text> para você.
       </Text>
@@ -80,6 +100,7 @@ export default function LoginScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  // ... mesmo estilo anterior
   container: {
     flex: 1,
     backgroundColor: '#fff',
