@@ -1,0 +1,284 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+interface Produto {
+  id: string;
+  nome: string;
+  price: number;
+  image: string;
+}
+
+export default function CatalogoScreen(): JSX.Element {
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [busca, setBusca] = useState('');
+
+  useEffect(() => {
+    fetch('https://110e-2804-8aa4-3e6c-2400-1939-8514-4b9-f959.ngrok-free.app/api/products')
+      .then(response => response.json())
+      .then(data => setProdutos(data))
+      .catch(error => console.error('Erro ao buscar produtos:', error));
+  }, []);
+
+  const renderItem = ({ item }: { item: Produto }) => (
+    <View style={styles.produtoCard}>
+      <Image source={{ uri: item.image }} style={styles.produtoImagem} />
+      <Text style={styles.produtoNome}>{item.nome}</Text>
+      <Text style={styles.produtoPreco}>R$ {item.price.toFixed(2)}</Text>
+    </View>
+  );
+
+  return (
+    <ScrollView style={styles.container}>
+      {/* Faixa promocional */}
+      <View style={styles.promocaoTopo}>
+        <Text style={styles.promocaoTopoTexto}>
+          12% NA SUA 1ª COMPRA SEM VALOR MÍNIMO
+        </Text>
+        <Text style={styles.cupom}>CUPOM: <Text style={{ fontWeight: 'bold' }}>FRUTISALE12</Text></Text>
+      </View>
+
+      {/* Localização */}
+      <View style={styles.localizacao}>
+        <Ionicons name="location-outline" size={16} color="#555" />
+        <Text style={styles.localizacaoTexto}>Informe sua localização</Text>
+      </View>
+
+      {/* Logo e ícones */}
+      <View style={styles.topo}>
+        <Image
+          source={require('../assets/logo.png')}
+          style={styles.logo}
+        />
+        <View style={styles.iconesTopo}>
+          <Ionicons name="notifications-outline" size={22} color="#000" />
+          <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
+        </View>
+      </View>
+
+      {/* Busca */}
+      <View style={styles.campoBusca}>
+        <Ionicons name="search" size={20} color="#888" style={{ marginRight: 5 }} />
+        <TextInput
+          placeholder="O que você está procurando?"
+          placeholderTextColor="#999"
+          style={styles.searchInput}
+          value={busca}
+          onChangeText={setBusca}
+        />
+      </View>
+
+      {/* Promoção banana */}
+      <View style={styles.promocaoContainer}>
+        <Text style={styles.promocaoTitulo}>BANANA NANICA KG</Text>
+        <Image
+          source={{ uri: 'https://feiraorganica.com.br/wp-content/uploads/2021/04/banana-nanica.png' }}
+          style={styles.promocaoImagem}
+        />
+        <Text style={styles.promocaoPreco}>R$ 2,98</Text>
+      </View>
+
+      {/* Benefícios */}
+      <View style={styles.beneficiosContainer}>
+        <View style={styles.beneficio}>
+          <Ionicons name="checkmark-circle" size={16} color="#fff" />
+          <Text style={styles.beneficioTexto}>SEM PEDIDO MÍNIMO</Text>
+        </View>
+        <View style={styles.beneficio}>
+          <Ionicons name="car" size={16} color="#fff" />
+          <Text style={styles.beneficioTexto}>FRETE GRÁTIS A PARTIR DE R$ 00,00</Text>
+        </View>
+      </View>
+
+      {/* Ofertas da Semana */}
+      <Text style={styles.secaoTitulo}>Ofertas da Semana</Text>
+      <FlatList
+        horizontal
+        data={produtos.slice(0, 3)}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        showsHorizontalScrollIndicator={false}
+      />
+
+      {/* Faça sua feira */}
+      <View style={styles.feiraHeader}>
+        <Text style={styles.secaoTitulo}>Faça sua feira</Text>
+        <Text style={styles.verTodos}>VER TODOS</Text>
+      </View>
+      <FlatList
+        data={produtos.filter(produto =>
+          produto.nome.toLowerCase().includes(busca.toLowerCase())
+        )}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        numColumns={2}
+        contentContainerStyle={styles.lista}
+        scrollEnabled={false}
+      />
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  promocaoTopo: {
+    backgroundColor: '#ff8c00',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+  },
+  promocaoTopoTexto: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  cupom: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 2,
+  },
+  localizacao: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: '#f5f5f5',
+  },
+  localizacaoTexto: {
+    marginLeft: 6,
+    color: '#555',
+  },
+  topo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    marginTop: 10,
+  },
+  logo: {
+    width: 50,
+    height: 50,
+  },
+  iconesTopo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  campoBusca: {
+    flexDirection: 'row',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    margin: 12,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+  promocaoContainer: {
+    backgroundColor: '#ffa726',
+    borderRadius: 16,
+    margin: 12,
+    padding: 12,
+    alignItems: 'center',
+  },
+  promocaoTitulo: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  promocaoImagem: {
+    width: 120,
+    height: 120,
+    marginBottom: 10,
+  },
+  promocaoPreco: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  beneficiosContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  beneficio: {
+    backgroundColor: '#2e7d32',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  beneficioTexto: {
+    color: '#fff',
+    marginLeft: 5,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  secaoTitulo: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginHorizontal: 12,
+    marginBottom: 8,
+  },
+  feiraHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 12,
+    alignItems: 'center',
+  },
+  verTodos: {
+    color: '#ff8c00',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  lista: {
+    paddingBottom: 30,
+    paddingHorizontal: 5,
+  },
+  produtoCard: {
+    flex: 1,
+    margin: 6,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  produtoImagem: {
+    width: 80,
+    height: 80,
+    marginBottom: 10,
+  },
+  produtoNome: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 13,
+  },
+  produtoPreco: {
+    color: '#2e7d32',
+    fontWeight: 'bold',
+    marginTop: 5,
+    fontSize: 14,
+  },
+});
