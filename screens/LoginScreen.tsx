@@ -23,7 +23,7 @@ export default function LoginScreen(): JSX.Element {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://f095-2804-8aa4-3e6c-2400-54-e9cb-8f4f-2e4e.ngrok-free.app/api/login', {
+      const response = await fetch('https://nova-pasta-production.up.railway.app/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

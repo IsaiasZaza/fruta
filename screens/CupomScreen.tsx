@@ -27,7 +27,7 @@ export default function CupomScreen(): JSX.Element {
   const fetchCoupons = async () => {
     try {
       const response = await fetch(
-        'https://f095-2804-8aa4-3e6c-2400-54-e9cb-8f4f-2e4e.ngrok-free.app/api/coupons'
+        'https://nova-pasta-production.up.railway.app/api/coupons'
       );
       const data = await response.json();
       setCoupons(data);

@@ -75,7 +75,7 @@ export default function ChatScreen(): JSX.Element {
 
             case '2':
                 try {
-                    const response = await fetch('https://f095-2804-8aa4-3e6c-2400-54-e9cb-8f4f-2e4e.ngrok-free.app/api/coupons');
+                    const response = await fetch('https://nova-pasta-production.up.railway.app/api/coupons');
                     if (!response.ok) throw new Error('Erro ao buscar cupons');
 
                     const data = await response.json();
