@@ -8,19 +8,23 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCarrinho } from '../CarrinhoContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function CarrinhoEtapa3() {
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
+  const desconto = route.params?.desconto ?? 0;
   const { carrinho } = useCarrinho();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const total = carrinho.reduce(
+  const subtotal = carrinho.reduce(
     (acc, item) => acc + item.price * item.quantidade,
     0
   );
+
+  const totalComDesconto = Math.max(0, subtotal - desconto);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -30,13 +34,17 @@ export default function CarrinhoEtapa3() {
       </View>
 
       <View style={styles.resumoBox}>
-        <Text style={styles.resumoLabel}>Total do Pedido:</Text>
-        <Text style={styles.total}>R$ {total.toFixed(2)}</Text>
+        <Text style={styles.resumoLabel}>Subtotal do Pedido:</Text>
+        <Text style={styles.total}>R$ {subtotal.toFixed(2)}</Text>
       </View>
 
-      <View style={styles.cupomBox}>
-        <Text style={styles.cupomTitulo}>🎁 Cupom aplicado</Text>
-        <Text style={styles.cupomCodigo}>FRUITSALE12</Text>
+
+
+      <View style={styles.resumoBox}>
+        <Text style={styles.resumoLabel}>Total com desconto:</Text>
+        <Text style={[styles.total, { fontSize: 24, color: '#00796b' }]}>
+          R$ {totalComDesconto.toFixed(2)}
+        </Text>
       </View>
 
       <Text style={styles.subtitulo}>Pagamento via Pix</Text>
@@ -53,7 +61,7 @@ export default function CarrinhoEtapa3() {
 
       <TouchableOpacity
         style={styles.botao}
-        onPress={() => navigation.navigate('PedidoConfirmado')}
+        onPress={() => navigation.navigate('PedidoConfirmado', { desconto })}
       >
         <Text style={styles.botaoTexto}>FINALIZAR</Text>
       </TouchableOpacity>
@@ -123,23 +131,19 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   cupomBox: {
-    backgroundColor: '#fff3e0',
     padding: 16,
     borderRadius: 12,
     width: '100%',
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ffe0b2',
   },
   cupomTitulo: {
     fontWeight: 'bold',
-    color: '#ff9800',
     marginBottom: 6,
   },
   cupomCodigo: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#ef6c00',
   },
   subtitulo: {
     alignSelf: 'flex-start',

@@ -1,12 +1,14 @@
 // PedidoConfirmadoScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function PedidoConfirmadoScreen() {
   const navigation = useNavigation<any>();
   const numeroPedido = '12345678';
   const previsaoEntrega = '15:30';
+    const route = useRoute<any>();
+    const desconto = route.params?.desconto ?? 0;
 
   return (
     <View style={styles.container}>
@@ -25,8 +27,13 @@ export default function PedidoConfirmadoScreen() {
 
       {/* Botões */}
       <TouchableOpacity style={styles.botaoResumo}>
-        <Text onPress={() => navigation.navigate('ResumoDoPedido')} style={styles.botaoResumoTexto}>RESUMO DO SEU PEDIDO</Text>
-      </TouchableOpacity>
+        <Text
+          onPress={() => navigation.navigate('ResumoDoPedido', { desconto })}
+          style={styles.botaoResumoTexto}
+        >
+          RESUMO DO SEU PEDIDO
+        </Text>      
+        </TouchableOpacity>
 
       <TouchableOpacity style={styles.botaoAcompanhar}>
         <Text style={styles.botaoAcompanharTexto}>ACOMPANHAR SEU PEDIDO</Text>

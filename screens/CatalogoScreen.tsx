@@ -73,8 +73,12 @@ export default function CatalogoScreen(): JSX.Element {
           <TouchableOpacity onPress={() => navigation.navigate('Carrinho')}>
             <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+            <Ionicons name="chatbubbles-outline" size={22} style={{ marginLeft: 15 }} />
+          </TouchableOpacity>
         </View>
       </View>
+      
 
       {/* Campo de busca */}
       <View style={styles.campoBusca}>
@@ -93,12 +97,14 @@ export default function CatalogoScreen(): JSX.Element {
         <Text style={styles.promocaoTitulo}>BANANA NANICA KG</Text>
         <Image
           source={{
-            uri: 'https://feiraorganica.com.br/wp-content/uploads/2021/04/banana-nanica.png',
+            uri: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmFuYW5hfGVufDB8fDB8fHww',
           }}
-          style={styles.promocaoImagem}
+          style={styles.imagemCentro}
+          resizeMode="cover"
         />
         <Text style={styles.promocaoPreco}>R$ 2,98</Text>
       </View>
+
 
       {/* Benefícios */}
       <View style={styles.beneficiosContainer}>
@@ -222,6 +228,12 @@ const styles = StyleSheet.create({
     height: 120,
     marginBottom: 10,
   },
+  imagemCentro: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
   promocaoPreco: {
     fontSize: 24,
     color: '#fff',
@@ -285,7 +297,7 @@ const styles = StyleSheet.create({
   produtoImagem: {
     width: 80,
     height: 80,
-    marginBottom: 10,
+    marginBottom: 10
   },
   produtoNome: {
     fontWeight: 'bold',

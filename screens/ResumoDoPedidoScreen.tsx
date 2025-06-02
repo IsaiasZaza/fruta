@@ -1,13 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCarrinho } from '../CarrinhoContext';
 
 export default function ResumoDoPedidoScreen() {
   const navigation = useNavigation<any>();
   const { carrinho } = useCarrinho();
+  const route = useRoute<any>();
+  const desconto = route.params?.desconto ?? 0;
 
-  const total = carrinho.reduce((acc, item) => acc + item.price * (item.quantidade || 1), 0);
+  // Total bruto (sem desconto)
+  const totalBruto = carrinho.reduce((acc, item) => acc + item.price * (item.quantidade || 1), 0);
+
+  // Total com desconto aplicado (não pode ser negativo)
+  const totalComDesconto = Math.max(0, totalBruto - desconto);
 
   return (
     <View style={styles.container}>
@@ -35,7 +41,11 @@ export default function ResumoDoPedidoScreen() {
         )}
       />
 
-      <Text style={styles.total}>TOTAL: R$ {total.toFixed(2)}</Text>
+      {desconto > 0 && (
+        <Text style={styles.desconto}>Desconto aplicado: R$ {desconto.toFixed(2)}</Text>
+      )}
+
+      <Text style={styles.total}>TOTAL: R$ {totalComDesconto.toFixed(2)}</Text>
 
       <TouchableOpacity
         style={styles.botao}
@@ -52,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: '#fff',
-    marginTop: 45, // Ajuste para evitar sobreposição com o header
+    marginTop: 45,
   },
   titulo: {
     fontSize: 18,
@@ -92,6 +102,13 @@ const styles = StyleSheet.create({
   itemQtd: {
     fontSize: 13,
     color: '#555',
+  },
+  desconto: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#d32f2f',
+    textAlign: 'right',
+    marginTop: 8,
   },
   total: {
     fontSize: 16,

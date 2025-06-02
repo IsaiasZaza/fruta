@@ -7,16 +7,19 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCarrinho } from '../CarrinhoContext';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function CarrinhoEtapa2() {
   const navigation = useNavigation<any>();
-  const [opcao, setOpcao] = useState<'RETIRADA' | 'ENTREGA' | null>(null);
+  const route = useRoute<any>();
+  const desconto = route.params?.desconto ?? 0;
   const { carrinho } = useCarrinho();
+  const [opcao, setOpcao] = useState<'RETIRADA' | 'ENTREGA' | null>(null);
 
-  const total = carrinho.reduce((acc, item) => acc + item.price * item.quantidade, 0);
+  const subtotal = carrinho.reduce((acc, item) => acc + item.price * item.quantidade, 0);
+  const totalComDesconto = Math.max(0, subtotal - desconto);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -34,7 +37,16 @@ export default function CarrinhoEtapa2() {
             </View>
           </View>
         ))}
-        <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
+
+        <Text style={styles.total}>Subtotal: R$ {subtotal.toFixed(2)}</Text>
+
+        {desconto > 0 && (
+          <Text style={{ color: 'green', fontWeight: 'bold', textAlign: 'right', marginBottom: 8 }}>
+            Você economizou: R$ {desconto.toFixed(2)}
+          </Text>
+        )}
+
+        <Text style={[styles.total, { fontSize: 18 }]}>Total: R$ {totalComDesconto.toFixed(2)}</Text>
       </View>
 
       {/* Opções de entrega */}
@@ -63,7 +75,7 @@ export default function CarrinhoEtapa2() {
       <TouchableOpacity
         style={[styles.botao, !opcao && { backgroundColor: '#aaa' }]}
         disabled={!opcao}
-        onPress={() => navigation.navigate('CarrinhoEtapa3')}
+        onPress={() => navigation.navigate('CarrinhoEtapa3', { desconto, opcao })}
       >
         <Text style={styles.botaoTexto}>PAGAR</Text>
       </TouchableOpacity>
