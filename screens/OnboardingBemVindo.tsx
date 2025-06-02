@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import Swiper from 'react-native-swiper';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const images = [
   require('../assets/uva.webp'),
@@ -16,33 +16,51 @@ export default function OnboardingBemVindo() {
 
   return (
     <View style={styles.container}>
-      <Swiper
-        autoplay
-        autoplayTimeout={3}
-        loop
-        dotStyle={styles.dot}
-        activeDotStyle={styles.activeDot}
-        style={styles.swiper}
-      >
-        {images.map((img, index) => (
-          <View key={index} style={styles.slide}>
-            <Image source={img} style={styles.image} resizeMode="cover" />
-          </View>
-        ))}
-      </Swiper>
-
-      <View style={styles.bottomContent}>
-        <Text style={styles.titulo}>BEM-VINDO(A)</Text>
-        <Text style={styles.subtitulo}>
-          COMPRE HORTALIÇAS FRESQUINHAS, MESMO COM IMPERFEIÇÕES, DIRETO DO PRODUTOR.
-        </Text>
-        <TouchableOpacity
-          style={styles.botao}
-          onPress={() => navigation.navigate('OnboardingTermos')}
-        >
-          <Text style={styles.botaoTexto}>COMEÇAR</Text>
-        </TouchableOpacity>
+      {/* Header com logo */}
+      <View style={styles.header}>
+        <Image
+          source={require('../assets/logo.png')} // ajuste o caminho do logo
+          style={styles.logo}
+          resizeMode="contain"
+        />
       </View>
+
+      {/* Conteúdo principal */}
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.titulo}>BEM-VINDO(A)</Text>
+
+        {/* Card com swiper */}
+        <View style={styles.card}>
+          <Swiper
+            autoplay
+            autoplayTimeout={3}
+            loop
+            dotStyle={styles.dot}
+            activeDotStyle={styles.activeDot}
+            showsPagination
+          >
+            {images.map((img, index) => (
+              <Image
+                key={index}
+                source={img}
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+            ))}
+          </Swiper>
+          <View style={styles.overlay}>
+            <Text style={styles.subtitulo}>
+              COMPRE HORTALIÇAS FRESQUINHAS, MESMO COM IMPERFEIÇÕES, DIRETO DO PRODUTOR.
+            </Text>
+            <TouchableOpacity
+              style={styles.botao}
+              onPress={() => navigation.navigate('OnboardingTermos')}
+            >
+              <Text style={styles.botaoTexto}>COMEÇAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -52,46 +70,58 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  swiper: {
-    height: '100%',
-  },
-  slide: {
-    flex: 1,
-  },
-  image: {
-    width: width,
-    height: height,
-  },
-  bottomContent: {
-    position: 'absolute',
-    bottom: 40,
-    width: '100%',
-    paddingHorizontal: 30,
+  header: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    paddingTop: 40,
+    marginBottom: 20,
+  },
+  logo: {
+    width: 150,
+    height: 50,
+  },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   titulo: {
-    fontSize: 22,
-    color: 'white',
+    fontSize: 20,
+    color: '#4CAF50', // verde para combinar com o design
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 10,
+  },
+  card: {
+    width: width * 0.95, // mais largo
+    aspectRatio: 2 / 3.2, // mais alto e ovalado
+    borderRadius: 92,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    elevation: 3,
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    padding: 16,
+    alignItems: 'center',
   },
   subtitulo: {
     textAlign: 'center',
     fontSize: 14,
     color: '#fff',
-    marginBottom: 20,
-    lineHeight: 20,
+    marginBottom: 12,
+    lineHeight: 18,
   },
   botao: {
     backgroundColor: '#f57c00',
-    borderRadius: 30,
-    paddingVertical: 12,
+    borderRadius: 20,
+    paddingVertical: 10,
     paddingHorizontal: 40,
-    elevation: 3,
   },
   botaoTexto: {
     color: '#fff',
