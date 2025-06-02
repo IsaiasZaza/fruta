@@ -9,7 +9,7 @@ export default function SplashScreen(): JSX.Element {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.replace('Login');
+      navigation.replace('OnboardingBemVindo');
     }, 2000); // espera 2 segundos
 
     return () => clearTimeout(timeout);

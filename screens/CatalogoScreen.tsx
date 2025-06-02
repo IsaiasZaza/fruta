@@ -35,18 +35,18 @@ export default function CatalogoScreen(): JSX.Element {
   }, []);
 
   const renderItem = ({ item }: { item: Produto }) => (
-  <TouchableOpacity
-    style={styles.produtoCard}
-    onPress={() => {
-      adicionarProduto(item);
-      navigation.navigate('Carrinho');
-    }}
-  >
-    <Image source={{ uri: item.image }} style={styles.produtoImagem} />
-    <Text style={styles.produtoNome}>{item.nome}</Text>
-    <Text style={styles.produtoPreco}>R$ {item.price.toFixed(2)}</Text>
-  </TouchableOpacity>
-);
+    <TouchableOpacity
+      style={styles.produtoCard}
+      onPress={() => {
+        adicionarProduto(item);
+        navigation.navigate('Carrinho');
+      }}
+    >
+      <Image source={{ uri: item.image }} style={styles.produtoImagem} />
+      <Text style={styles.produtoNome}>{item.nome}</Text>
+      <Text style={styles.produtoPreco}>R$ {item.price.toFixed(2)}</Text>
+    </TouchableOpacity>
+  );
 
 
   return (
@@ -70,9 +70,9 @@ export default function CatalogoScreen(): JSX.Element {
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <View style={styles.iconesTopo}>
           <Ionicons name="notifications-outline" size={22} color="#000" />
-<TouchableOpacity onPress={() => navigation.navigate('Carrinho')}>
-  <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
-</TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Carrinho')}>
+            <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -125,7 +125,9 @@ export default function CatalogoScreen(): JSX.Element {
       {/* Faça sua feira */}
       <View style={styles.feiraHeader}>
         <Text style={styles.secaoTitulo}>Faça sua feira</Text>
-        <Text style={styles.verTodos}>VER TODOS</Text>
+        <Text style={styles.verTodos} onPress={() => navigation.navigate('TodosProdutos')}>
+          VER TODOS
+        </Text>
       </View>
 
       <FlatList
