@@ -20,14 +20,14 @@ export default function OnboardingTipoUsuario() {
 
         <TouchableOpacity
           style={[styles.botao, { backgroundColor: '#fb8c00' }]}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('OnboardingUpdateScreen')}
         >
           <Text style={styles.botaoTexto}>VENDEDOR</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.botao, { backgroundColor: '#c62828' }]}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('OnboardingUpdateScreen')}
         >
           <Text style={styles.botaoTexto}>ENTREGADOR</Text>
         </TouchableOpacity>

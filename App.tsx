@@ -18,6 +18,7 @@ import ResumoDoPedidoScreen from './screens/ResumoDoPedidoScreen';
 import OnboardingBemVindo from './screens/OnboardingBemVindo';
 import OnboardingTermos from './screens/OnboardingTermos';
 import OnboardingTipoUsuario from './screens/OnboardingTipoUsuario';
+import OnboardingUpdateScreen from './screens/OnboardingUpdateScreen';
 import ChatScreen from './screens/ChatScreen';
 
 
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   OnboardingBemVindo: undefined;
   OnboardingTermos: undefined;
   OnboardingTipoUsuario: undefined;
+  OnboardingUpdateScreen: undefined;
   Login: undefined;
   PersonalData: undefined;
   Address: undefined;
@@ -52,6 +54,7 @@ export default function App() {
           <Stack.Screen name="OnboardingBemVindo" component={OnboardingBemVindo} />
           <Stack.Screen name="OnboardingTermos" component={OnboardingTermos} />
           <Stack.Screen name="OnboardingTipoUsuario" component={OnboardingTipoUsuario} />
+          <Stack.Screen name="OnboardingUpdateScreen" component={OnboardingUpdateScreen} />
 
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
@@ -65,7 +68,7 @@ export default function App() {
           <Stack.Screen name="TodosProdutos" component={TodosProdutosScreen} />
           <Stack.Screen name="PedidoConfirmado" component={PedidoConfirmadoScreen} />
           <Stack.Screen name="ResumoDoPedido" component={ResumoDoPedidoScreen} />
-          <Stack.Screen name="Chat" component={ChatScreen}/>
+          <Stack.Screen name="Chat" component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </CarrinhoProvider>
