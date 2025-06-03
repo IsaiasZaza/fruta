@@ -18,7 +18,7 @@ export default function TodosProdutosScreen() {
   const { adicionarProduto } = useCarrinho();
 
   useEffect(() => {
-    fetch('https://https://nova-pasta-production.up.railway.app/api/products')
+    fetch('https://nova-pasta-production.up.railway.app/api/products')
       .then(res => res.json())
       .then(data => setProdutos(data))
       .catch(err => console.error(err));
