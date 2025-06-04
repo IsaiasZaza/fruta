@@ -95,6 +95,11 @@ npx expo start
 # ou
 npm start
 ```
+## 👥 Integrantes do Grupo
+- Kathleen Gabrielle Lima Dias  - UC23100125
+- Nathalia Cassimiro dos Santos - UC23101954
+ 
+
 ## 📄 Licença
 Distribuído sob a licença [MIT](LICENSE). Veja o arquivo para mais detalhes.
 
