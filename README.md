@@ -86,7 +86,7 @@ fruta/
 ### Instalação
 
 ```bash
-cd Fruta
+cd Fruta ou cd Fruta-Master
 npm install
 ```
 ### Execução
