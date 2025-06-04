@@ -53,9 +53,9 @@ export default function CatalogoScreen(): JSX.Element {
     <ScrollView style={styles.container}>
       {/* Faixa promocional */}
       <TouchableOpacity style={styles.promocaoTopo} onPress={() => navigation.navigate('Cupom')}>
-        <Text style={styles.promocaoTopoTexto}>12% NA SUA 1ª COMPRA SEM VALOR MÍNIMO</Text>
-        <Text style={styles.cupom}>
-          CUPOM: <Text style={{ fontWeight: 'bold' }}>FRUTISALE12</Text>
+        <Text style={styles.promocaoTopoTexto}>FRUTISALE12 12% NA SUA 1ª COMPRA SEM VALOR MÍNIMO</Text>
+        <Text style={styles.cupomButton}>
+          <Text style={styles.cupomButtonText}>Ver cupons disponíveis</Text>
         </Text>
       </TouchableOpacity>
 
@@ -69,7 +69,7 @@ export default function CatalogoScreen(): JSX.Element {
       <View style={styles.topo}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <View style={styles.iconesTopo}>
-          <Ionicons name="notifications-outline" size={22} color="#000" />
+          <Ionicons onPress={() => navigation.navigate('NotificationScreen')} name="notifications-outline" size={22} color="#000" />
           <TouchableOpacity onPress={() => navigation.navigate('Carrinho')}>
             <Ionicons name="cart-outline" size={22} color="#000" style={{ marginLeft: 15 }} />
           </TouchableOpacity>
@@ -78,7 +78,7 @@ export default function CatalogoScreen(): JSX.Element {
           </TouchableOpacity>
         </View>
       </View>
-      
+
 
       {/* Campo de busca */}
       <View style={styles.campoBusca}>
@@ -102,7 +102,6 @@ export default function CatalogoScreen(): JSX.Element {
           style={styles.imagemCentro}
           resizeMode="cover"
         />
-        <Text style={styles.promocaoPreco}>R$ 2,98</Text>
       </View>
 
 
@@ -182,6 +181,19 @@ const styles = StyleSheet.create({
   localizacaoTexto: {
     marginLeft: 6,
     color: '#555',
+  },
+  cupomButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    
+
+    marginTop: 8,
+    alignSelf: 'center',
+  },
+  cupomButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   topo: {
     flexDirection: 'row',

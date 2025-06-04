@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as Clipboard from 'expo-clipboard';
 
 interface Coupon {
   id: string;
@@ -23,6 +24,7 @@ export default function CupomScreen(): JSX.Element {
   const navigation = useNavigation();
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [copiedCoupon, setCopiedCoupon] = useState<string | null>(null);
 
   const fetchCoupons = async () => {
     try {
@@ -49,26 +51,39 @@ export default function CupomScreen(): JSX.Element {
   const renderItem = ({ item }: { item: Coupon }) => {
     const expired = isExpired(item.expiracao);
 
+    const handleCopy = () => {
+      if (expired) return;
+      Clipboard.setStringAsync(item.codigo);
+      setCopiedCoupon(item.codigo);
+      setTimeout(() => setCopiedCoupon(null), 2000);
+    };
+
     return (
-      <View style={[styles.card, expired && styles.cardExpired]}>
-        <Ionicons
-          name="pricetag-outline"
-          size={32}
-          color={expired ? '#888' : '#2e7d32'}
-          style={styles.cardIcon}
-        />
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.couponCode, expired && styles.textExpired]}>
-            {item.codigo}
-          </Text>
-          <Text style={[styles.description, expired && styles.textExpired]}>
-            {item.tipo}
+      <TouchableOpacity onPress={handleCopy} activeOpacity={0.8}>
+        <View style={[styles.card, expired && styles.cardExpired]}>
+          <Ionicons
+            name="pricetag-outline"
+            size={32}
+            color={expired ? '#888' : '#2e7d32'}
+            style={styles.cardIcon}
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.couponCode, expired && styles.textExpired]}>
+              {item.codigo}
+            </Text>
+            <Text style={[styles.description, expired && styles.textExpired]}>
+              {item.tipo}
+            </Text>
+          </View>
+          <Text style={[styles.discount, expired && styles.textExpired]}>
+            {item.valor}$
           </Text>
         </View>
-        <Text style={[styles.discount, expired && styles.textExpired]}>
-          {item.valor}$
-        </Text>
-      </View>
+
+        {copiedCoupon === item.codigo && !expired && (
+          <Text style={styles.copyMessage}>Cupom copiado!</Text>
+        )}
+      </TouchableOpacity>
     );
   };
 
@@ -96,7 +111,10 @@ export default function CupomScreen(): JSX.Element {
           />
         )}
 
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Catalogo')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Catalogo')}
+        >
           <Text style={styles.buttonText}>FAZER COMPRAS</Text>
         </TouchableOpacity>
       </View>
@@ -174,5 +192,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  copyMessage: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 4,
+    marginBottom: 8,
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });

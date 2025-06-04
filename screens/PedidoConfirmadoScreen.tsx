@@ -2,13 +2,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useCarrinho } from '../CarrinhoContext';
 
 export default function PedidoConfirmadoScreen() {
   const navigation = useNavigation<any>();
+  const { carrinho, atualizarQuantidade, limparCarrinho } = useCarrinho();
+
   const numeroPedido = '12345678';
   const previsaoEntrega = '15:30';
-    const route = useRoute<any>();
-    const desconto = route.params?.desconto ?? 0;
+  const route = useRoute<any>();
+  const desconto = route.params?.desconto ?? 0;
 
   return (
     <View style={styles.container}>
@@ -32,12 +35,19 @@ export default function PedidoConfirmadoScreen() {
           style={styles.botaoResumoTexto}
         >
           RESUMO DO SEU PEDIDO
-        </Text>      
-        </TouchableOpacity>
-
-      <TouchableOpacity style={styles.botaoAcompanhar}>
-        <Text style={styles.botaoAcompanharTexto}>ACOMPANHAR SEU PEDIDO</Text>
+        </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.botaoAcompanhar}
+        onPress={() => {
+          navigation.navigate('Catalogo');
+          limparCarrinho();
+        }}
+      >
+        <Text style={styles.botaoAcompanharTexto}>Voltar para o Início</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }

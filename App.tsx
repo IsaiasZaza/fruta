@@ -20,7 +20,7 @@ import OnboardingTermos from './screens/OnboardingTermos';
 import OnboardingTipoUsuario from './screens/OnboardingTipoUsuario';
 import OnboardingUpdateScreen from './screens/OnboardingUpdateScreen';
 import ChatScreen from './screens/ChatScreen';
-
+import NotificationScreen from './screens/NotificationScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -41,6 +41,7 @@ export type RootStackParamList = {
   PedidoConfirmado: undefined;
   ResumoDoPedido: undefined;
   Chat: undefined;
+  NotificationScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -69,6 +70,8 @@ export default function App() {
           <Stack.Screen name="PedidoConfirmado" component={PedidoConfirmadoScreen} />
           <Stack.Screen name="ResumoDoPedido" component={ResumoDoPedidoScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </CarrinhoProvider>

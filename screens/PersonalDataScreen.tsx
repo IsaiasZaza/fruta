@@ -1,11 +1,25 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Image
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../types';
 
 export default function PersonalDataScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'PersonalData'>>();
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -13,14 +27,21 @@ export default function PersonalDataScreen() {
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <Text style={styles.title}>ECO FRUTI</Text>
       </View>
+
       <Text style={styles.formTitle}>DIGITE SEUS DADOS PESSOAIS</Text>
 
-      <TextInput placeholder="Nome completo" style={styles.input} />
-      <TextInput placeholder="E-mail" keyboardType="email-address" style={styles.input} />
-      <TextInput placeholder="Telefone" keyboardType="phone-pad" style={styles.input} />
-      <TextInput placeholder="CPF" keyboardType="numeric" style={styles.input} />
+      <TextInput placeholder="Nome completo" style={styles.input} value={name} onChangeText={setName} />
+      <TextInput placeholder="E-mail" keyboardType="email-address" style={styles.input} value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Telefone" keyboardType="phone-pad" style={styles.input} value={phone} onChangeText={setPhone} />
+      <TextInput placeholder="CPF" keyboardType="numeric" style={styles.input} value={cpf} onChangeText={setCpf} />
+      <TextInput placeholder="Senha" secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Address')}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Address', { name, email, phone, cpf, password })
+        }
+      >
         <Text style={styles.buttonText}>AVANÇAR</Text>
       </TouchableOpacity>
 
