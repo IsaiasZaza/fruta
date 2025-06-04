@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useCarrinho } from '../CarrinhoContext'; // ajuste o path
+import { useCarrinho } from '../CarrinhoContext';
 
 const { height } = Dimensions.get('window');
 
@@ -74,11 +74,11 @@ export default function CarrinhoScreen(): JSX.Element {
           />
 
           <TouchableOpacity
-  style={[styles.botao, { marginTop: 30, alignSelf: 'center' }]}
-  onPress={() => navigation.navigate('CarrinhoEtapa1')}
->
-  <Text style={styles.botaoTexto}>FINALIZAR COMPRA</Text>
-</TouchableOpacity>
+            style={[styles.botao, { marginTop: 30, alignSelf: 'center' }]}
+            onPress={() => navigation.navigate('CarrinhoEtapa1')}
+          >
+            <Text style={styles.botaoTexto}>FINALIZAR COMPRA</Text>
+          </TouchableOpacity>
 
         </View>
       )}

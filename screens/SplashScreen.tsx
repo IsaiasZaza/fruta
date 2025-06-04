@@ -10,7 +10,7 @@ export default function SplashScreen(): JSX.Element {
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigation.replace('OnboardingBemVindo');
-    }, 2000); // espera 2 segundos
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [navigation]);
@@ -18,7 +18,7 @@ export default function SplashScreen(): JSX.Element {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/logo.png')} // Altere conforme o caminho da imagem
+        source={require('../assets/logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -33,7 +33,7 @@ export default function SplashScreen(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#999', // Cinza
+    backgroundColor: '#999',
     justifyContent: 'center',
     alignItems: 'center',
   },

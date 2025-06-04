@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useCarrinho } from '../CarrinhoContext'; // ajuste o caminho conforme seu projeto
+import { useCarrinho } from '../CarrinhoContext';
 
 type Mensagem = {
     id: string;

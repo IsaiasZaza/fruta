@@ -19,7 +19,7 @@ export default function OnboardingBemVindo() {
       {/* Header com logo */}
       <View style={styles.header}>
         <Image
-          source={require('../assets/logo.png')} // ajuste o caminho do logo
+          source={require('../assets/logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -86,13 +86,13 @@ const styles = StyleSheet.create({
   },
   titulo: {
     fontSize: 20,
-    color: '#4CAF50', // verde para combinar com o design
+    color: '#4CAF50',
     fontWeight: 'bold',
     marginBottom: 10,
   },
   card: {
-    width: width * 0.95, // mais largo
-    aspectRatio: 2 / 3.2, // mais alto e ovalado
+    width: width * 0.95,
+    aspectRatio: 2 / 3.2,
     borderRadius: 92,
     overflow: 'hidden',
     backgroundColor: '#fff',

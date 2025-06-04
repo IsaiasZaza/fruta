@@ -34,8 +34,7 @@ export default function LoginScreen(): JSX.Element {
       const data = await response.json();
 
       if (response.ok) {
-        // Login bem-sucedido
-        // Você pode salvar o token ou dados do usuário com AsyncStorage, se necessário
+
         navigation.navigate('Catalogo');
       } else {
         Alert.alert('Erro de login', data?.message || 'Credenciais inválidas');
@@ -100,7 +99,7 @@ export default function LoginScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  // ... mesmo estilo anterior
+
   container: {
     flex: 1,
     backgroundColor: '#fff',

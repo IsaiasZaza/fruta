@@ -38,8 +38,8 @@ export default function CarrinhoEtapa1() {
       const dados = await response.json();
 
       if (dados.valor && typeof dados.valor === 'number') {
-        // valor é o valor que o cupom deve descontar do subtotal
-        const descontoCalculado = Math.min(dados.valor, subtotal); // não desconta mais que o subtotal
+
+        const descontoCalculado = Math.min(dados.valor, subtotal);
         setDesconto(descontoCalculado);
         setMensagemCupom(`Cupom aplicado: R$ ${descontoCalculado.toFixed(2)} de desconto!`);
       } else {

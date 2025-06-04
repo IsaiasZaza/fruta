@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   cupomButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    
+
 
     marginTop: 8,
     alignSelf: 'center',

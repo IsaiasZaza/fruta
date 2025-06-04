@@ -9,10 +9,10 @@ export default function ResumoDoPedidoScreen() {
   const route = useRoute<any>();
   const desconto = route.params?.desconto ?? 0;
 
-  // Total bruto (sem desconto)
+
   const totalBruto = carrinho.reduce((acc, item) => acc + item.price * (item.quantidade || 1), 0);
 
-  // Total com desconto aplicado (não pode ser negativo)
+
   const totalComDesconto = Math.max(0, totalBruto - desconto);
 
   return (
@@ -49,7 +49,7 @@ export default function ResumoDoPedidoScreen() {
 
       <TouchableOpacity
         style={styles.botao}
-        onPress={() => navigation.navigate('PedidoConfirmado')} // ou outra rota
+        onPress={() => navigation.navigate('PedidoConfirmado')}
       >
         <Text style={styles.botaoTexto}>VOLTAR PARA INÍCIO</Text>
       </TouchableOpacity>

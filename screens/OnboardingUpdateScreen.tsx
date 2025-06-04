@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../App'; // ajuste o caminho se necessário
+import type { RootStackParamList } from '../App';
 
 export default function UpdateScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

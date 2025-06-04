@@ -25,46 +25,46 @@ export default function AddressScreen() {
   const [complement, setComplement] = useState('');
 
   const handleRegister = async () => {
-  try {
-    const response = await axios.post('https://nova-pasta-production.up.railway.app/api/register', {
-      name,
-      email,
-      phone,
-      cpf,
-      senha: password,
-      cep,
-      street,
-      number,
-      complement,
-    });
+    try {
+      const response = await axios.post('https://nova-pasta-production.up.railway.app/api/register', {
+        name,
+        email,
+        phone,
+        cpf,
+        senha: password,
+        cep,
+        street,
+        number,
+        complement,
+      });
 
-    Alert.alert('Sucesso!', 'Cadastro realizado com sucesso!', [
-      {
-        text: 'OK',
-        onPress: () => navigation.navigate('Login'), // ou a tela que quiser retornar
-      },
-    ]);
-    
-    // navigation.navigate('Login'); // descomente se quiser redirecionar
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        // O servidor respondeu com código de erro (4xx, 5xx)
-        const message = error.response.data?.message || 'Erro desconhecido do servidor.';
-        Alert.alert('Erro', message);
-      } else if (error.request) {
-        // Requisição feita mas nenhuma resposta recebida
-        Alert.alert('Erro', 'Servidor indisponível. Verifique sua conexão e tente novamente.');
+      Alert.alert('Sucesso!', 'Cadastro realizado com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('Login'),
+        },
+      ]);
+
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+
+          const message = error.response.data?.message || 'Erro desconhecido do servidor.';
+          Alert.alert('Erro', message);
+        } else if (error.request) {
+
+          Alert.alert('Erro', 'Servidor indisponível. Verifique sua conexão e tente novamente.');
+        } else {
+
+          Alert.alert('Erro', 'Erro ao preparar a requisição.');
+        }
       } else {
-        // Erro ao configurar a requisição
-        Alert.alert('Erro', 'Erro ao preparar a requisição.');
+
+        Alert.alert('Erro', 'Ocorreu um erro inesperado. Tente novamente.');
       }
-    } else {
-      // Erro não relacionado ao axios (outro tipo de erro)
-      Alert.alert('Erro', 'Ocorreu um erro inesperado. Tente novamente.');
     }
-  }
-};
+  };
 
 
   return (

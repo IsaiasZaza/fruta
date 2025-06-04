@@ -17,7 +17,7 @@ interface Coupon {
   codigo: string;
   tipo: string;
   valor: number;
-  expiracao: string; // exemplo: "2025-06-12T23:59:59.000Z"
+  expiracao: string;
 }
 
 export default function CupomScreen(): JSX.Element {
